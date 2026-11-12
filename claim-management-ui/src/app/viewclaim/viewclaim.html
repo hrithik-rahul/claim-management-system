@@ -1,0 +1,178 @@
+
+<div class="claims-page">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-content">
+      <div>
+        <p class="eyebrow">INSURANCE PORTAL</p>
+        <h1>My Claims</h1>
+        <p class="page-subtitle">
+          View and manage your insurance claims in one place.
+        </p>
+      </div>
+
+      <button class="btn btn-outline" (click)="goToDashboard()">
+        ← Dashboard
+      </button>
+    </div>
+  </header>
+
+  <main class="claims-container">
+
+    <!-- Messages -->
+    <div class="alert alert-success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="alert alert-error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <section class="summary-row">
+  <div class="summary-card">
+    <span class="summary-label">Total Claims</span>
+    <strong>{{ claims.length }}</strong>
+  </div>
+
+  <div class="summary-card">
+    <span class="summary-label">Submitted</span>
+    <strong>{{ submittedClaims }}</strong>
+  </div>
+
+  <div class="summary-card">
+    <span class="summary-label">Approved</span>
+    <strong>{{ approvedClaims }}</strong>
+  </div>
+
+  <div class="summary-card">
+    <span class="summary-label">Rejected</span>
+    <strong>{{ rejectedClaims }}</strong>
+  </div>
+</section>
+
+    <!-- Loading -->
+    <div class="loading-state" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading your claims...</p>
+    </div>
+
+    <!-- Empty State -->
+    <section class="empty-state"
+      *ngIf="!loading && claims.length === 0 && !errorMessage">
+
+      <div class="empty-icon">📄</div>
+      <h2>No Claims Found</h2>
+      <p>You haven't submitted any insurance claims yet.</p>
+    </section>
+
+    <!-- Claims Grid -->
+    <section class="claims-grid" *ngIf="!loading && claims.length > 0">
+
+      <article class="claim-card" *ngFor="let claim of claims">
+
+        <!-- Claim Header -->
+        <div class="claim-card-header">
+          <div>
+            <span class="claim-id">CLAIM #{{ claim.id }}</span>
+            <h2>{{ claim.claimType }}</h2>
+          </div>
+
+          <span
+            class="status-badge"
+            [ngClass]="(claim.status || 'unknown').toLowerCase()">
+            {{ claim.status || 'UNKNOWN' }}
+          </span>
+        </div>
+
+        <!-- Read-only Details -->
+        <div class="claim-details"
+          *ngIf="editingClaimId !== claim.id">
+
+          <div class="detail-item">
+            <span class="detail-label">Description</span>
+            <p>{{ claim.description || 'No description provided' }}</p>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Submitted Date</span>
+            <p>
+              {{ claim.submittedAt ? (claim.submittedAt | date:'dd MMM yyyy, h:mm a') : 'Not available' }}
+            </p>
+          </div>
+
+          <div class="claim-card-footer">
+            <span class="read-only-note"
+              *ngIf="!canEdit(claim)">
+              <span>🔒</span> Approved claims cannot be edited
+            </span>
+
+            <button
+              *ngIf="canEdit(claim)"
+              class="btn btn-primary"
+              (click)="editClaim(claim)">
+              Edit Claim
+            </button>
+          </div>
+        </div>
+
+        <!-- Edit Form -->
+        <form
+          class="edit-form"
+          *ngIf="editingClaimId === claim.id"
+          (ngSubmit)="saveClaim()">
+
+          <div class="form-group">
+            <label [for]="'claimType-' + claim.id">Claim Type</label>
+
+            <select
+              [id]="'claimType-' + claim.id"
+              name="editClaimType"
+              [(ngModel)]="editClaimType"
+              required>
+
+              <option value="" disabled>Select claim type</option>
+              <option value="Health">Health</option>
+              <option value="Vehicle">Vehicle</option>
+              <option value="Travel">Travel</option>
+              <option value="Property">Property</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label [for]="'description-' + claim.id">Description</label>
+
+            <textarea
+              [id]="'description-' + claim.id"
+              name="editDescription"
+              [(ngModel)]="editDescription"
+              rows="4"
+              required
+              placeholder="Enter claim description">
+            </textarea>
+          </div>
+
+          <div class="edit-actions">
+            <button
+              type="button"
+              class="btn btn-outline"
+              (click)="cancelEdit()"
+              [disabled]="isSaving">
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="isSaving">
+              {{ isSaving ? 'Saving...' : 'Save Changes' }}
+            </button>
+          </div>
+        </form>
+
+      </article>
+    </section>
+
+  </main>
+</div>

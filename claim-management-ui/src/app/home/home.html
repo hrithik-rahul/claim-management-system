@@ -1,0 +1,173 @@
+
+<div class="home-container">
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-icon">C</div>
+      <div>
+        <h2>Claim Management</h2>
+        <p>Insurance Portal</p>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <span class="welcome">Welcome, {{ displayName }}!</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="dashboard">
+
+    <!-- Page Heading -->
+    <section class="page-heading">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Manage and track your insurance claims.</p>
+      </div>
+
+      <button class="primary-btn" (click)="createClaim()">
+        + Create Claim
+      </button>
+    </section>
+
+    <!-- Summary Cards -->
+    <section class="summary-cards">
+
+      <div class="summary-card">
+        <div class="card-icon blue">▤</div>
+        <p>Total Claims</p>
+        <h2>{{ totalClaims }}</h2>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon orange">◷</div>
+        <p>Submitted</p>
+        <h2>{{ submittedClaims }}</h2>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon green">✓</div>
+        <p>Approved</p>
+        <h2>{{ approvedClaims }}</h2>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon red">✕</div>
+        <p>Rejected</p>
+        <h2>{{ rejectedClaims }}</h2>
+      </div>
+
+    </section>
+
+    <!-- Welcome Card -->
+    <section class="welcome-card">
+      <div class="welcome-content">
+        <span class="welcome-label">YOUR INSURANCE PORTAL</span>
+        <h2>Welcome to your Claims Portal</h2>
+        <p>
+          Submit new claims and keep track of the status
+          of your existing insurance claims.
+        </p>
+
+        <button class="secondary-btn" (click)="viewClaims()">
+          View All Claims →
+        </button>
+      </div>
+
+      <div class="welcome-illustration">📋</div>
+    </section>
+
+    <section class="recent-claims">
+
+  <div class="section-heading">
+    <div>
+      <h2>Recent Claims</h2>
+      <p>Your latest 2 insurance claims</p>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading your claims...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="error-message" *ngIf="!loading && errorMessage">
+    <p>{{ errorMessage }}</p>
+    <button class="secondary-btn" (click)="fetchClaims()">
+      Try Again
+    </button>
+  </div>
+
+  <!-- Empty State -->
+
+<div
+  class="empty-state"
+  *ngIf="!loading && !errorMessage && recentClaims.length === 0">
+
+  <div class="empty-icon">📋</div>
+
+  <h3>No Recent Claims</h3>
+
+  <p>
+    You don't have any claims to display right now.
+    Create a new claim to get started.
+  </p>
+
+  <button class="primary-btn" (click)="createClaim()">
+    + Create Claim
+  </button>
+
+</div>
+
+  <!-- Latest 2 Claims -->
+  <div
+    class="claims-grid"
+    *ngIf="!loading && !errorMessage && recentClaims.length > 0">
+
+    <article
+      class="claim-card"
+      *ngFor="let claim of recentClaims">
+
+      <div class="claim-card-header">
+        <div class="claim-document-icon">📄</div>
+
+        <span
+          class="status-badge"
+          [ngClass]="(claim.status || 'unknown').toLowerCase()">
+          {{ claim.status }}
+        </span>
+      </div>
+
+      <h3 class="claim-id">Claim #{{ claim.id }}</h3>
+
+      <p class="claim-type">{{ claim.claimType }}</p>
+
+      <p class="claim-description">
+        {{ claim.description }}
+      </p>
+
+      <div class="claim-card-footer">
+        <span class="claim-date">
+          <ng-container
+            *ngIf="claim.submittedAt; else dateUnavailable">
+            Submitted {{ claim.submittedAt | date:'dd MMM yyyy' }}
+          </ng-container>
+
+          <ng-template #dateUnavailable>
+            Submission date unavailable
+          </ng-template>
+        </span>
+      </div>
+
+    </article>
+
+  </div>
+
+</section>
+
+
+  </main>
+</div>

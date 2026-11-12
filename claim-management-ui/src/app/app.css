@@ -1,0 +1,53 @@
+
+.page {
+  min-height: 100vh;
+  background-color: #f4f7fb;
+  font-family: Arial, sans-serif;
+  color: #1f2937;
+}
+
+.header {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 28px 40px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+}
+
+.header p {
+  margin: 0;
+  color: #dbeafe;
+}
+
+.content {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 24px;
+}
+
+.content h2 {
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #1d4ed8;
+}

@@ -1,0 +1,60 @@
+
+<div class="page-container">
+  <div class="claim-card">
+
+    <h2>Create a Claim</h2>
+    <p class="subtitle">Submit your claim details below.</p>
+
+    <form (ngSubmit)="submitClaim()" #claimForm="ngForm">
+
+      <div class="form-group">
+        <label for="claimType">Claim Type</label>
+
+        <select
+          id="claimType"
+          name="claimType"
+          [(ngModel)]="claimType"
+          required>
+
+          <option value="" disabled>Select claim type</option>
+          <option value="Medical">Medical</option>
+          <option value="Travel">Travel</option>
+          <option value="Vehicle">Vehicle</option>
+          <option value="Property">Property</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="description"
+          rows="5"
+          placeholder="Explain the reason for your claim..."
+          required>
+        </textarea>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="isSubmitting || claimForm.invalid">
+
+        {{ isSubmitting ? 'Submitting...' : 'Submit Claim' }}
+
+      </button>
+
+    </form>
+
+    <p class="success-message" *ngIf="successMessage">
+      {{ successMessage }}
+    </p>
+
+    <p class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+
+  </div>
+</div>
