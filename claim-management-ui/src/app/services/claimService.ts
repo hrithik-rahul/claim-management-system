@@ -28,8 +28,8 @@ export interface ClaimResponse {
 })
 
 export class Claim {
-      private baseUrl = 'http://localhost:8080/api/claims';
-      private managerBaseUrl = 'http://localhost:8080/api/manager';
+      private baseUrl = '/api/claims';
+      private managerBaseUrl = '/api/manager';
 
   constructor(private http: HttpClient) {}
 

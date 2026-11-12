@@ -26,7 +26,7 @@ export interface RegisterRequest {
 })
 
 export class Auth {
-      private baseUrl = 'http://localhost:8080/auth';
+      private baseUrl = '/auth';
 
   constructor(private http: HttpClient) {}
 
