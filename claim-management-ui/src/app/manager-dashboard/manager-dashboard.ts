@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Claim, ClaimData, ClaimResponse } from '../services/claimService';
+import { Claim, ClaimAnalysisResponse, ClaimData, ClaimResponse } from '../services/claimService';
 import { Router } from '@angular/router';
 
 
@@ -17,6 +17,9 @@ export class ManagerDashboard implements OnInit {
   loading = false;
   message = '';
   managerName: string = '';
+  analysis: ClaimAnalysisResponse | null = null;
+  analyzingClaimId: number | null = null;
+selectedClaimId: number | null = null;
 
   constructor(private claimService: Claim,
      private router: Router,
@@ -104,10 +107,40 @@ export class ManagerDashboard implements OnInit {
     });
   }
 
+  analyzeClaim(id: number): void {
+
+  this.analyzingClaimId = id;
+  this.selectedClaimId = id;
+  this.analysis = null;
+
+  this.claimService.analyzeClaim(id).subscribe({
+
+    next: (response) => {
+      console.log('========',response)
+       this.analysis = response;
+      this.analyzingClaimId = null;
+      this.cdr.detectChanges();
+    },
+
+    error: (error) => {
+      console.error('AI analysis failed:', error);
+      this.message = 'Unable to analyze claim.';
+      this.analyzingClaimId = null;
+      this.cdr.detectChanges();
+    }
+
+  });
+}
+
   logout(): void {
    sessionStorage.removeItem('token');
   sessionStorage.removeItem('fullName');
   sessionStorage.removeItem('role');
   this.router.navigate(['/login']);
 }
+closeAnalysis(): void {
+  this.analysis = null;
+  this.selectedClaimId = null;
+}
+
 }

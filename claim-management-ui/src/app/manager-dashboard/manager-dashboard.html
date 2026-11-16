@@ -88,6 +88,13 @@
               Reject
             </button>
 
+            <button
+  class="ai-btn"
+  (click)="analyzeClaim(claim.id)"
+  [disabled]="analyzingClaimId === claim.id">
+  {{ analyzingClaimId === claim.id ? 'Analyzing...' : 'Analyze with AI' }}
+</button>
+
             <span *ngIf="claim.status === 'APPROVED' || claim.status === 'REJECTED'">
               Completed
             </span>
@@ -101,5 +108,48 @@
     </p>
 
   </div>
+
+ <!-- AI Analysis Popup -->
+<div class="modal-overlay" *ngIf="analysis">
+
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h3>AI Claim Analysis — Claim #{{ selectedClaimId }}</h3>
+
+      <button class="close-btn" (click)="closeAnalysis()">
+        &times;
+      </button>
+    </div>
+
+    <p>
+      <strong>Category:</strong>
+      {{ analysis.claimCategory }}
+    </p>
+
+    <p>
+      <strong>Summary:</strong>
+      {{ analysis.summary }}
+    </p>
+
+    <h4>Missing Information</h4>
+
+    <ul>
+      <li *ngFor="let item of analysis.missingInformation">
+        {{ item }}
+      </li>
+    </ul>
+
+    <h4>AI Recommendation</h4>
+
+    <p>{{ analysis.recommendation }}</p>
+
+    <button class="close-modal-btn" (click)="closeAnalysis()">
+      Close
+    </button>
+
+  </div>
+
+</div>
 
 </div>

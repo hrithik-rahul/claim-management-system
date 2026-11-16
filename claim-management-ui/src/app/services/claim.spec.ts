@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { Claim } from './claim';
+import { Claim } from './claimService';
+
 
 describe('Claim', () => {
   let service: Claim;

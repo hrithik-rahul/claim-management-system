@@ -207,6 +207,27 @@ tbody tr:hover {
   background: #b71c1c;
 }
 
+/* AI Button */
+.ai-btn {
+  background-color: #673ab7;
+  color: white;
+  padding: 7px 9px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 3px;
+  font-size: 11px;
+}
+
+.ai-btn:hover {
+  background-color: #512da8;
+}
+
+.ai-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Message */
 .message {
   padding: 10px 15px;
@@ -214,6 +235,61 @@ tbody tr:hover {
   color: #1565c0;
   border-radius: 5px;
   margin-bottom: 15px;
+}
+
+/* AI Analysis Popup */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+
+.modal-header h3 {
+  color: #673ab7;
+  margin: 0;
+}
+
+.close-btn {
+  border: none;
+  background: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #555;
+}
+
+.close-modal-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
 }
 
 /* Responsive */

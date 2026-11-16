@@ -22,6 +22,12 @@ export interface ClaimResponse {
   status: string;
   submittedAt: string;
 }
+export interface ClaimAnalysisResponse {
+  claimCategory: string;
+  summary: string;
+  missingInformation: string[];
+  recommendation: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +36,7 @@ export interface ClaimResponse {
 export class Claim {
       private baseUrl = '/api/claims';
       private managerBaseUrl = '/api/manager';
+      private aiBaseUrl = '/api/ai';
 
   constructor(private http: HttpClient) {}
 
@@ -88,6 +95,13 @@ updateClaimStatus(id: number, status: string): Observable<ClaimData> {
   return this.http.put<ClaimData>(
     `${this.managerBaseUrl}/claims/status/${id}`,
     { status: status }
+  );
+}
+// Manager: Analyze claim using AI
+analyzeClaim(id: number): Observable<ClaimAnalysisResponse> {
+  return this.http.post<ClaimAnalysisResponse>(
+    `${this.aiBaseUrl}/analyze/${id}`,
+    {}
   );
 }
 }
